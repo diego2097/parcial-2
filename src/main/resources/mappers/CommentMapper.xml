@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.pdsw.persistence.mybatisimpl.mappers.CommentMapper">
+
+    <resultMap type='Comment' id='CommentResult'>
+        <id property='creationDate' column='creation_date'/>        
+        <result property='content' column='content'/>
+ 		<association property='author' javaType='User' resultMap = "edu.eci.pdsw.persistence.mybatisimpl.mappers.UserMapper.UserResult">  </association>
+    </resultMap>
+
+    <select id="getCommentsByTitle" resultMap="CommentResult">
+         SELECT
+       name,login,c.content,c.creation_date
+        FROM
+            BLOG as b join BLOG_COMMENT as c join BLOG_USUARIO as u  where c.blog_id = b.id and u.login = c.author and b.titlte = #{title}
+        order by   c.creation_date  DESC    
+    </select>
+
+	 <select id="searchOffensiveComments" resultMap="CommentResult">
+         select login,name,blog_id,(c.content),title from BLOG_COMMENT as c join BLOG_USUARIO as u join BLOG as b where blog_id = b.id and
+ 			(c.content like ("%tonto%") or c.content like ("%burro%")) and login = c.author 
+				 order by login ASC
+    </select>
+</mapper>

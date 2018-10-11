@@ -9,6 +9,8 @@
         <id property='id' column='id'/>        
         <result property='title' column='title'/>
         <result property='creationDate' column='creation_date'/>
+		<association property='author' javaType='User' resultMap = "edu.eci.pdsw.persistence.mybatisimpl.mappers.UserMapper.UserResult">  </association>
+		<collection property='comments' ofType='Comment' resultMap = "edu.eci.pdsw.persistence.mybatisimpl.mappers.CommentMapper.CommentResult">  </collection>
     </resultMap>
 
     <select id="findByUser" resultMap="BlogResult" parameterType="string">
